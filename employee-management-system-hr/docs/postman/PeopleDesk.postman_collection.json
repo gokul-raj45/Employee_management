@@ -1,0 +1,899 @@
+{
+  "info": {
+    "name": "PeopleDesk HR API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:5000"
+    },
+    {
+      "key": "adminEmail",
+      "value": "admin@example.com"
+    },
+    {
+      "key": "adminPassword",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "id",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET /api/health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "health"
+          ]
+        },
+        "auth": {
+          "type": "noauth"
+        }
+      }
+    },
+    {
+      "name": "GET /api/auth/config",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/config",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "config"
+          ]
+        },
+        "auth": {
+          "type": "noauth"
+        }
+      }
+    },
+    {
+      "name": "POST /api/login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"
+        },
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status 200', () => pm.response.to.have.status(200));",
+              "const j = pm.response.json();",
+              "pm.test('has token', () => pm.expect(j.access_token).to.be.a('string'));",
+              "pm.test('no password hash', () => pm.expect(JSON.stringify(j)).to.not.include('password'));",
+              "pm.collectionVariables.set('token', j.access_token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /api/register",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "register"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"new.user\",\n  \"email\": \"new.user@example.com\",\n  \"password\": \"ChangeMe#12345\"\n}"
+        },
+        "auth": {
+          "type": "noauth"
+        }
+      }
+    },
+    {
+      "name": "GET /api/me",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/me",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "me"
+          ]
+        }
+      }
+    },
+    {
+      "name": "PUT /api/me/profile",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/me/profile",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "me",
+            "profile"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone\": \"+91 90000 00000\",\n  \"location\": \"Salem\"\n}"
+        }
+      }
+    },
+    {
+      "name": "POST /api/change-password",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/change-password",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "change-password"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"current_password\": \"old\",\n  \"new_password\": \"NewPassw0rd!2026\"\n}"
+        }
+      }
+    },
+    {
+      "name": "GET /api/dashboard",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/dashboard",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "dashboard"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /api/employees",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /api/employees",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Asha Kumar\",\n  \"email\": \"asha@example.com\",\n  \"department\": \"Engineering\",\n  \"designation\": \"Developer\",\n  \"employment_type\": \"Full-time\",\n  \"status\": \"Active\",\n  \"joining_date\": \"2026-10-01\",\n  \"initial_password\": \"TempPass#12345\"\n}"
+        }
+      }
+    },
+    {
+      "name": "GET /api/employees/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees",
+            "{{id}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "PUT /api/employees/{id}",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees",
+            "{{id}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"designation\": \"Senior Developer\"\n}"
+        }
+      }
+    },
+    {
+      "name": "POST /api/employees/{id}/deactivate",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees/{{id}}/deactivate",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees",
+            "{{id}}",
+            "deactivate"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /api/employees/{id}/activate",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees/{{id}}/activate",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees",
+            "{{id}}",
+            "activate"
+          ]
+        }
+      }
+    },
+    {
+      "name": "DELETE /api/employees/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees",
+            "{{id}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /api/employees/export.csv",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees/export.csv",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees",
+            "export.csv"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /api/attendance",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/attendance",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "attendance"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /api/attendance",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/attendance",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "attendance"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employee_id\": 1,\n  \"attendance_date\": \"2026-10-01\",\n  \"status\": \"Present\",\n  \"check_in\": \"09:00\",\n  \"check_out\": \"18:00\",\n  \"notes\": \"\"\n}"
+        }
+      }
+    },
+    {
+      "name": "PUT /api/attendance/{id}",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/attendance/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "attendance",
+            "{{id}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"Late\",\n  \"check_in\": \"09:45\"\n}"
+        }
+      }
+    },
+    {
+      "name": "DELETE /api/attendance/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/attendance/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "attendance",
+            "{{id}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /api/salaries",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/salaries",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "salaries"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /api/salaries/{id}/payslip",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/salaries/{{id}}/payslip",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "salaries",
+            "{{id}}",
+            "payslip"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /api/salaries",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/salaries",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "salaries"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employee_id\": 1,\n  \"pay_month\": \"2026-09\",\n  \"basic_salary\": 50000,\n  \"allowances\": 5000,\n  \"bonus\": 0,\n  \"deductions\": 2500,\n  \"payment_status\": \"Pending\"\n}"
+        }
+      }
+    },
+    {
+      "name": "PUT /api/salaries/{id}",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/salaries/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "salaries",
+            "{{id}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"payment_status\": \"Paid\",\n  \"paid_on\": \"2026-10-01\"\n}"
+        }
+      }
+    },
+    {
+      "name": "DELETE /api/salaries/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/salaries/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "salaries",
+            "{{id}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /api/leaves",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/leaves",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "leaves"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /api/leaves",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/leaves",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "leaves"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"leave_type\": \"Sick\",\n  \"start_date\": \"2026-11-02\",\n  \"end_date\": \"2026-11-03\",\n  \"reason\": \"Fever\"\n}"
+        }
+      }
+    },
+    {
+      "name": "POST /api/leaves/{id}/cancel",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/leaves/{{id}}/cancel",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "leaves",
+            "{{id}}",
+            "cancel"
+          ]
+        }
+      }
+    },
+    {
+      "name": "PUT /api/leaves/{id}/review",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/leaves/{{id}}/review",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "leaves",
+            "{{id}}",
+            "review"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"Approved\",\n  \"review_note\": \"Get well soon\"\n}"
+        }
+      }
+    },
+    {
+      "name": "GET /api/departments",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/departments",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "departments"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /api/departments",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/departments",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "departments"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Legal\",\n  \"description\": \"\"\n}"
+        }
+      }
+    },
+    {
+      "name": "PUT /api/departments/{id}",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/departments/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "departments",
+            "{{id}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"description\": \"Legal & compliance\"\n}"
+        }
+      }
+    },
+    {
+      "name": "DELETE /api/departments/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/departments/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "departments",
+            "{{id}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /api/designations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/designations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "designations"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /api/designations",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/designations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "designations"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Counsel\",\n  \"department\": \"Legal\"\n}"
+        }
+      }
+    },
+    {
+      "name": "PUT /api/designations/{id}",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/designations/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "designations",
+            "{{id}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"department\": \"Legal\"\n}"
+        }
+      }
+    },
+    {
+      "name": "DELETE /api/designations/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/designations/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "designations",
+            "{{id}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /api/reports/summary",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/reports/summary",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "reports",
+            "summary"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /api/activity",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/activity",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "activity"
+          ]
+        }
+      }
+    }
+  ]
+}
